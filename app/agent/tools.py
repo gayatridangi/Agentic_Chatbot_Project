@@ -81,4 +81,4 @@ def get_weather(city: str) -> str:
     )
 
 
-TOOLS = [calculator, get_current_time]
+TOOLS = [calculator, get_current_time, get_weather]

@@ -1,9 +1,13 @@
+import logging
+
 from fastapi import FastAPI, HTTPException
 
 from langchain.messages import AIMessage, HumanMessage
 
 from app.agent.graph import run_agent
 from app.schemas import ChatRequest, ChatResponse
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title='Agentic Chatbot API',
@@ -55,4 +59,5 @@ def chat(request: ChatRequest):
 
         return ChatResponse(answer=answer, tool_calls=tool_calls)
     except Exception as exc:
+        logger.exception('Chat request failed')
         raise HTTPException(status_code=500, detail=str(exc)) from exc

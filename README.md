@@ -102,7 +102,7 @@ agentic-chatbot/
 
 | Variable | Description |
 |---|---|
-| `EXPERIENTIAL_LABS_API_KEY` | API key for the Experiential Labs gateway |
+| `EXPERIENTIAL_API_KEY` | API key for the Experiential Labs gateway (legacy `EXPERIENTIAL_LABS_API_KEY` is also accepted) |
 | `EXPERIENTIAL_BASE_URL` | Gateway base URL (OpenAI-compatible endpoint) |
 | `MODEL_NAME` | Chat model, e.g. `gpt-5.6-luna` |
 | `BACKEND_HOST` / `BACKEND_PORT` | FastAPI bind host/port |
@@ -122,7 +122,7 @@ pip install -r requirements.txt
 
 # 3. Configure environment
 copy .env.example .env
-# → add your EXPERIENTIAL_LABS_API_KEY and EXPERIENTIAL_BASE_URL
+# → add your EXPERIENTIAL_API_KEY and EXPERIENTIAL_BASE_URL
 
 # 4. Run backend (Terminal 1)
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000

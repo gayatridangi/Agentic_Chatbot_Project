@@ -79,3 +79,4 @@ jobs:
           tags: |
             ghcr.io/${{ env.OWNER_LC }}/agentic-chatbot:latest
             ghcr.io/${{ env.OWNER_LC }}/agentic-chatbot:${{ github.sha }}
+            

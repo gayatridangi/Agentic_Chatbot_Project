@@ -53,6 +53,8 @@ def get_weather(city: str) -> str:
 
     print("GEOCODING STATUS:", geocode_response.status_code)
 
+    if geocode_response.status_code == 429:
+        return 'Weather lookup is temporarily rate-limited. Please try again shortly.'
     geocode_response.raise_for_status()
 
     # geocode_response.raise_for_status()
@@ -80,6 +82,8 @@ def get_weather(city: str) -> str:
 
     print("WEATHER STATUS:", weather_response.status_code)
 
+    if weather_response.status_code == 429:
+        return 'Weather lookup is temporarily rate-limited. Please try again shortly.'
     weather_response.raise_for_status()
     # weather_response.raise_for_status()
     weather_data = weather_response.json()

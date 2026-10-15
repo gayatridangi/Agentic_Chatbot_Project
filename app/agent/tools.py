@@ -170,4 +170,5 @@ TOOLS = [
     calculator,
     get_current_time,
     get_weather,
-]
+] 
+print("hello")

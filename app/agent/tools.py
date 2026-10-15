@@ -46,8 +46,15 @@ def get_weather(city: str) -> str:
         'https://geocoding-api.open-meteo.com/v1/search'
         f'?name={quote(city)}&count=1&language=en&format=json'
     )
+    # geocode_response = requests.get(geocode_url, timeout=10)
+
     geocode_response = requests.get(geocode_url, timeout=10)
+
+    print("GEOCODING STATUS:", geocode_response.status_code)
+
     geocode_response.raise_for_status()
+
+    # geocode_response.raise_for_status()
     geocode_data = geocode_response.json()
 
     results = geocode_data.get('results') or []
@@ -66,8 +73,14 @@ def get_weather(city: str) -> str:
         '&current=temperature_2m,relative_humidity_2m,wind_speed_10m'
         '&timezone=auto'
     )
+    # weather_response = requests.get(weather_url, timeout=10)
+
     weather_response = requests.get(weather_url, timeout=10)
+
+    print("WEATHER STATUS:", weather_response.status_code)
+
     weather_response.raise_for_status()
+    # weather_response.raise_for_status()
     weather_data = weather_response.json()
 
     current = weather_data['current']

@@ -36,6 +36,35 @@ def get_current_time(timezone: str = 'Asia/Kolkata') -> str:
     return now.strftime('%Y-%m-%d %H:%M:%S %Z')
 
 
+def _get_fallback_weather(city: str) -> str:
+    fallback_url = f'https://wttr.in/{quote(city, safe="")}?format=j1'
+    try:
+        response = requests.get(
+            fallback_url,
+            headers={'User-Agent': 'AgenticChatbot/1.0'},
+            timeout=10,
+        )
+        response.raise_for_status()
+        data = response.json()
+    except requests.RequestException:
+        return 'The primary weather service is rate-limited, and the backup weather service is unavailable. Please try again later.'
+    except ValueError:
+        return 'The backup weather service returned an invalid response. Please try again later.'
+
+    conditions = data.get('current_condition') or []
+    if not conditions:
+        return f'No current weather data was found for {city}.'
+
+    current = conditions[0]
+    description = (current.get('weatherDesc') or [{}])[0].get('value', 'Unknown conditions')
+    return (
+        f'Current weather in {city}: temperature {current.get("temp_C", "unavailable")} °C, '
+        f"humidity {current.get('humidity', 'unavailable')}%, "
+        f"feels like {current.get('FeelsLikeC', 'unavailable')} °C, "
+        f'conditions: {description}.'
+    )
+
+
 @tool
 def get_weather(city: str) -> str:
     """Return current weather for a city using the public Open-Meteo geocoding and weather APIs."""
@@ -54,7 +83,7 @@ def get_weather(city: str) -> str:
     print("GEOCODING STATUS:", geocode_response.status_code)
 
     if geocode_response.status_code == 429:
-        return 'Weather lookup is temporarily rate-limited. Please try again shortly.'
+        return _get_fallback_weather(city)
     geocode_response.raise_for_status()
 
     # geocode_response.raise_for_status()
@@ -83,7 +112,7 @@ def get_weather(city: str) -> str:
     print("WEATHER STATUS:", weather_response.status_code)
 
     if weather_response.status_code == 429:
-        return 'Weather lookup is temporarily rate-limited. Please try again shortly.'
+        return _get_fallback_weather(city)
     weather_response.raise_for_status()
     # weather_response.raise_for_status()
     weather_data = weather_response.json()

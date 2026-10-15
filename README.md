@@ -72,7 +72,7 @@ This loop is what makes it *agentic* — not a single pass, but a decision-and-a
 |---|---|
 | `calculator` | Evaluates arithmetic expressions (`+ - * / % **`, parentheses), returns a safe error message instead of crashing on invalid input |
 | `get_current_time` | Returns current date/time for any valid IANA timezone (e.g. `Asia/Kolkata`) |
-| `get_weather` | Returns live temperature, humidity, and wind speed for any city via Open-Meteo (no API key required) |
+| `get_weather` | Returns current weather via Open-Meteo, with wttr.in as a fallback when Open-Meteo rate-limits the service (no API key required) |
 
 ---
 
